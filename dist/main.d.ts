@@ -1,2 +1,1 @@
-import { Handler } from 'aws-lambda';
-export declare const handler: Handler;
+export declare const handler: import("aws-lambda").Handler<any, any> & import("@vendia/serverless-express/src/configure").ConfigureResult<any, any>;

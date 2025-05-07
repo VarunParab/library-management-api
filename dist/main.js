@@ -5,13 +5,12 @@ const core_1 = require("@nestjs/core");
 const app_module_1 = require("./app.module");
 const swagger_1 = require("@nestjs/swagger");
 const common_1 = require("@nestjs/common");
-const express = require("express");
 const platform_express_1 = require("@nestjs/platform-express");
+const express = require("express");
 const serverless_express_1 = require("@vendia/serverless-express");
-let cachedServer;
-async function bootstrap() {
-    const server = express();
-    const app = await core_1.NestFactory.create(app_module_1.AppModule, new platform_express_1.ExpressAdapter(server));
+const expressApp = express();
+async function createNestServer(expressInstance) {
+    const app = await core_1.NestFactory.create(app_module_1.AppModule, new platform_express_1.ExpressAdapter(expressInstance));
     app.useGlobalPipes(new common_1.ValidationPipe());
     const config = new swagger_1.DocumentBuilder()
         .setTitle('Library Management API')
@@ -21,11 +20,9 @@ async function bootstrap() {
     const document = swagger_1.SwaggerModule.createDocument(app, config);
     swagger_1.SwaggerModule.setup('', app, document);
     await app.init();
-    return (0, serverless_express_1.default)({ app: server });
 }
-const handler = async (event, context, callback) => {
-    cachedServer = cachedServer ?? (await bootstrap());
-    return cachedServer(event, context, callback);
-};
-exports.handler = handler;
+createNestServer(expressApp)
+    .then(() => console.log('NestJS serverless app ready'))
+    .catch(err => console.error('NestJS startup error', err));
+exports.handler = (0, serverless_express_1.configure)({ app: expressApp });
 //# sourceMappingURL=main.js.map
