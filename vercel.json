@@ -2,14 +2,11 @@
   "version": 2,
   "builds": [
     {
-      "src": "dist/main.handler.js",
+      "src": "dist/main.js",
       "use": "@vercel/node"
     }
   ],
   "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "dist/main.handler.js"
-    }
+    { "src": "/(.*)", "dest": "dist/main.js" }
   ]
 }

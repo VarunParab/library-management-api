@@ -1,18 +1,15 @@
+import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-import { ValidationPipe } from '@nestjs/common';
-import { ExpressAdapter } from '@nestjs/platform-express';
-import * as express from 'express';
-import { configure as serverlessExpress } from '@vendia/serverless-express'; // ✅ FIXED
 
-const expressApp = express();
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
 
-async function createNestServer(expressInstance: express.Express) {
-  const app = await NestFactory.create(AppModule, new ExpressAdapter(expressInstance));
-
+  // Enable global validation
   app.useGlobalPipes(new ValidationPipe());
 
+  // Swagger configuration
   const config = new DocumentBuilder()
     .setTitle('Library Management API')
     .setDescription('API for managing books with CRUD and fuzzy search functionality')
@@ -20,13 +17,9 @@ async function createNestServer(expressInstance: express.Express) {
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('', app, document); // Swagger UI at "/"
+  SwaggerModule.setup('', app, document); // Available at /api
 
-  await app.init();
+  // Start server
+  await app.listen(process.env.PORT || 3000);
 }
-
-createNestServer(expressApp)
-  .then(() => console.log('NestJS serverless app ready'))
-  .catch(err => console.error('NestJS startup error', err));
-
-export const handler = serverlessExpress({ app: expressApp }); // ✅ FIXED
+bootstrap();
