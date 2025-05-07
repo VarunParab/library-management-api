@@ -4,7 +4,7 @@ import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import * as express from 'express';
 import { ExpressAdapter } from '@nestjs/platform-express';
-import serverlessExpress from '@vendia/serverless-express';
+import createServer from '@vendia/serverless-express'; // ✅ correct default import
 import { Handler } from 'aws-lambda';
 
 let cachedServer: Handler;
@@ -24,11 +24,11 @@ async function bootstrap(): Promise<Handler> {
     .setVersion('1.0')
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('', app, document); // Swagger at "/"
+  SwaggerModule.setup('', app, document); // Swagger UI at root "/"
 
   await app.init();
 
-  return serverlessExpress({ app: expressApp });
+  return createServer({ app: expressApp }); // ✅ correctly using createServer
 }
 
 const handler: Handler = async (...args) => {
@@ -37,4 +37,3 @@ const handler: Handler = async (...args) => {
 };
 
 export default handler;
-
