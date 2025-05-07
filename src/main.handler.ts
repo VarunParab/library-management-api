@@ -31,7 +31,10 @@ async function bootstrap(): Promise<Handler> {
   return serverlessExpress({ app: expressApp });
 }
 
-export const handler: Handler = async (...args) => {
+const handler: Handler = async (...args) => {
   cachedServer = cachedServer ?? (await bootstrap());
   return cachedServer(...args);
 };
+
+export default handler;
+

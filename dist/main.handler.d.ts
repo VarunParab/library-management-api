@@ -1,2 +1,3 @@
 import { Handler } from 'aws-lambda';
-export declare const handler: Handler;
+declare const handler: Handler;
+export default handler;

@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.handler = void 0;
 const common_1 = require("@nestjs/common");
 const core_1 = require("@nestjs/core");
 const app_module_1 = require("./app.module");
@@ -28,5 +27,5 @@ const handler = async (...args) => {
     cachedServer = cachedServer ?? (await bootstrap());
     return cachedServer(...args);
 };
-exports.handler = handler;
+exports.default = handler;
 //# sourceMappingURL=main.handler.js.map
