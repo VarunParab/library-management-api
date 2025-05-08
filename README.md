@@ -9,7 +9,7 @@
 
 1. Clone the Repository
 
-git clone https://github.com/your-username/library-api.git
+git clone https://github.com/VarunParab/library-management-api.git
 cd library-api
 
 2.npm install
