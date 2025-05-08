@@ -2,6 +2,8 @@ import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import * as express from 'express';
+import * as path from 'path';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -17,7 +19,9 @@ async function bootstrap() {
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('', app, document); // Available at /api
+  SwaggerModule.setup('docs', app, document); // Available at /api
+
+  app.use('/docs-json', express.static(path.join(__dirname, '..', 'docs-json')));
 
   // Start server
   await app.listen(process.env.PORT || 3000);
