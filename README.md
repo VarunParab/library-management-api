@@ -25,12 +25,13 @@ npm run start:dev
 5. Access the API
 Swagger UI: http://localhost:3000
 
-API Endpoints
-Books
-Method	Endpoint	Description
-POST	/books	Add a new book
-GET	/books	List all books 
-GET	/books/:id	Get book by ID
-PUT	/books/:id	Update a book
-DELETE	/books/:id	Delete a book
-GET	/books/search?query=pottr	Fuzzy search
+## API Endpoints
+
+| Method | Endpoint                     | Description          |
+|--------|------------------------------|----------------------|
+| POST   | `/books`                     | Add a new book       |
+| GET    | `/books`                     | List all books       |
+| GET    | `/books/:id`                 | Get book by ID       |
+| PUT    | `/books/:id`                 | Update a book        |
+| DELETE | `/books/:id`                 | Delete a book        |
+| GET    | `/books/search?query=pottr`  | Fuzzy search         |
